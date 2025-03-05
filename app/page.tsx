@@ -24,7 +24,7 @@ export default function Home() {
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Access Previous Year Papers, Video Solutions & Handwritten Notes for all Semesters.
           </p>
-          <p>I'm Anikesh Roy</p>
+          {/* <p>I'm Anikesh Roy</p> */}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
