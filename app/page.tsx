@@ -1,5 +1,5 @@
 import SemesterCard from "@/components/semester-card"
-import { GraduationCap } from "lucide-react"
+// import { GraduationCap } from "lucide-react"
 
 export default function Home() {
   const semesters = [
