@@ -1,6 +1,12 @@
 import { WifiOff } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Offline - ByteAcademy",
+  description: "You are currently offline. Some features may be unavailable.",
+}
 
 export default function OfflinePage() {
   return (

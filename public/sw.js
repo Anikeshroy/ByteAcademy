@@ -5,7 +5,9 @@ const urlsToCache = [
   '/offline',
   '/manifest.json',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-512x512.png',
+  '/icons/screenshot1.png',
+  '/icons/screenshot2.png'
 ];
 
 // Install a service worker
@@ -18,6 +20,8 @@ self.addEventListener('install', event => {
       })
       .catch(error => {
         console.error('Failed to cache resources:', error);
+        // Continue even if some resources fail to cache
+        return Promise.resolve();
       })
   );
   
@@ -27,6 +31,11 @@ self.addEventListener('install', event => {
 
 // Cache and return requests
 self.addEventListener('fetch', event => {
+  // Don't try to handle non-GET requests or those that aren't to our origin
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {

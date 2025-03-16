@@ -6,6 +6,8 @@
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#3b82f6",
+  "scope": "/",
+  "id": "/",
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -57,5 +59,21 @@
     }
   ],
   "orientation": "portrait",
-  "categories": ["education", "productivity"]
+  "categories": ["education", "productivity"],
+  "screenshots": [
+    {
+      "src": "/icons/screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "ByteAcademy Home Screen"
+    },
+    {
+      "src": "/icons/screenshot2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "ByteAcademy Resources"
+    }
+  ]
 } 

@@ -18,6 +18,26 @@ const nextConfig = {
       },
     ];
   },
+  
+  // Fix deployment issues
+  output: 'standalone',
+  poweredByHeader: false,
+  
+  // Ensure images are properly handled
+  images: {
+    domains: [],
+    remotePatterns: [],
+    unoptimized: process.env.NODE_ENV !== 'production',
+  },
+  
+  // Vercel deployment configuration
+  env: {
+    NEXT_PUBLIC_VERCEL_URL: process.env.VERCEL_URL || 'localhost:3000',
+    NEXT_PUBLIC_VERCEL_ENV: process.env.VERCEL_ENV || 'development',
+  },
+  
+  // Disable source maps in production
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;

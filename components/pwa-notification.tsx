@@ -4,9 +4,15 @@ import { useState, useEffect } from "react"
 import { X, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+// Define a type for the BeforeInstallPromptEvent
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 export default function PWANotification() {
   const [isVisible, setIsVisible] = useState(false)
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   
   useEffect(() => {
     // Check if already installed
@@ -29,7 +35,7 @@ export default function PWANotification() {
     
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault()
-      setDeferredPrompt(e)
+      setDeferredPrompt(e as BeforeInstallPromptEvent)
     }
     
     if (typeof window !== 'undefined') {
