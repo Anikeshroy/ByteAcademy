@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Home, Info, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
+import InstallPWAButton from "@/components/install-pwa-button"
 import { useState } from "react"
 
 export default function Header() {
@@ -27,10 +28,12 @@ export default function Header() {
           <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary">
             About
           </Link>
+          <InstallPWAButton />
           <ThemeToggle />
         </nav>
 
         <div className="flex md:hidden items-center gap-4">
+          <InstallPWAButton />
           <ThemeToggle />
           <Button variant="ghost" size="icon" onClick={toggleMobileMenu}>
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

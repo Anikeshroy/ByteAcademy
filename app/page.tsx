@@ -14,26 +14,49 @@ export default function Home() {
   ]
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <section className="space-y-6">
-        <div className="text-center space-y-3">
-          <div className="flex items-center justify-center gap-2">
-            {/* <GraduationCap className="h-8 w-8 text-primary" /> */}
-            <h1 className="text-4xl font-bold tracking-tight">Resources for CSE Students</h1>
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <div className="container mx-auto px-4 py-16">
+        <section className="space-y-10">
+          {/* Header with subtle animation */}
+          <div className="text-center space-y-4 max-w-4xl mx-auto">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              {/* <GraduationCap className="h-10 w-10 text-primary" /> */}
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+                Resources for CSE Students
+              </h1>
+            </div>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Access Previous Year Papers, Video Solutions & Handwritten Notes for all Semesters.
+            </p>
           </div>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Access Previous Year Papers, Video Solutions & Handwritten Notes for all Semesters.
-          </p>
-          {/* <p>I'm Anikesh Roy</p> */}
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
-          {semesters.map((semester) => (
-            <SemesterCard key={semester.id} semester={semester} />
-          ))}
-        </div>
-      </section>
+          {/* Decorative divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-muted"></div>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-background px-4 text-muted-foreground text-sm">All Semesters</span>
+            </div>
+          </div>
+
+          {/* Semester cards with improved grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-4">
+            {semesters.map((semester, index) => (
+              <div 
+                key={semester.id} 
+                className="transition-all duration-300 hover:translate-y-[-4px]"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <SemesterCard semester={semester} />
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+      
+      {/* Footer accent */}
+      <div className="h-1 bg-gradient-to-r from-primary/80 via-primary to-primary/80 mt-10"></div>
     </div>
   )
-}
-
+} 
