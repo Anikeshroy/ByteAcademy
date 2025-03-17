@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+import { Download, Sparkles } from "lucide-react"
 
 // Define a type for the BeforeInstallPromptEvent
 interface BeforeInstallPromptEvent extends Event {
@@ -14,6 +14,7 @@ export default function InstallPWAButton() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [isInstallable, setIsInstallable] = useState(false)
   const [isInstalled, setIsInstalled] = useState(false)
+  const [isInstalling, setIsInstalling] = useState(false)
 
   useEffect(() => {
     // Check if the app is already installed
@@ -38,6 +39,7 @@ export default function InstallPWAButton() {
         setIsInstalled(true)
         setIsInstallable(false)
         setDeferredPrompt(null)
+        setIsInstalling(false)
       })
     }
 
@@ -51,21 +53,29 @@ export default function InstallPWAButton() {
   const handleInstallClick = async () => {
     if (!deferredPrompt) return
 
-    // Show the install prompt
-    deferredPrompt.prompt()
+    setIsInstalling(true)
     
-    // Wait for the user to respond to the prompt
-    const { outcome } = await deferredPrompt.userChoice
-    
-    if (outcome === 'accepted') {
-      console.log('User accepted the install prompt')
-    } else {
-      console.log('User dismissed the install prompt')
+    try {
+      // Show the install prompt
+      deferredPrompt.prompt()
+      
+      // Wait for the user to respond to the prompt
+      const { outcome } = await deferredPrompt.userChoice
+      
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt')
+      } else {
+        console.log('User dismissed the install prompt')
+        setIsInstalling(false)
+      }
+      
+      // We no longer need the prompt
+      setDeferredPrompt(null)
+      setIsInstallable(false)
+    } catch (error) {
+      console.error('Installation failed:', error)
+      setIsInstalling(false)
     }
-    
-    // We no longer need the prompt
-    setDeferredPrompt(null)
-    setIsInstallable(false)
   }
 
   if (isInstalled) {
@@ -76,15 +86,53 @@ export default function InstallPWAButton() {
     return null // Don't show button if not installable
   }
 
-  return (
+  // Desktop version (md and above)
+  const DesktopButton = () => (
     <Button 
       onClick={handleInstallClick}
-      variant="outline"
+      variant="default"
       size="sm"
-      className="gap-2 bg-primary/10 hover:bg-primary/20 text-primary border-primary/20"
+      className="hidden md:flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+      disabled={isInstalling}
     >
-      <Download className="h-4 w-4" />
-      <span>Install App</span>
+      {isInstalling ? (
+        <>
+          <div className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+          <span>Installing...</span>
+        </>
+      ) : (
+        <>
+          <Download className="h-4 w-4" />
+          <span>Install App</span>
+        </>
+      )}
     </Button>
+  )
+
+  // Mobile version (below md)
+  const MobileButton = () => (
+    <Button 
+      onClick={handleInstallClick}
+      variant="default"
+      size="icon"
+      className="md:hidden relative h-9 w-9 bg-primary hover:bg-primary/90 text-primary-foreground"
+      disabled={isInstalling}
+    >
+      {isInstalling ? (
+        <div className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+      ) : (
+        <>
+          <Download className="h-4 w-4" />
+          <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-yellow-300" />
+        </>
+      )}
+    </Button>
+  )
+
+  return (
+    <>
+      <DesktopButton />
+      <MobileButton />
+    </>
   )
 } 

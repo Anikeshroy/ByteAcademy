@@ -12,6 +12,22 @@ interface SemesterCardProps {
 }
 
 export default function SemesterCard({ semester }: SemesterCardProps) {
+  // Function to get ordinal suffix for semester number
+  const getOrdinalSuffix = (num: number): string => {
+    const j = num % 10;
+    const k = num % 100;
+    if (j === 1 && k !== 11) {
+      return num + "st";
+    }
+    if (j === 2 && k !== 12) {
+      return num + "nd";
+    }
+    if (j === 3 && k !== 13) {
+      return num + "rd";
+    }
+    return num + "th";
+  };
+
   return (
     <Card className="overflow-hidden transition-all hover:shadow-lg group border-muted/40 bg-card/80 hover:bg-card/95">
       {/* Decorative elements */}
@@ -21,7 +37,7 @@ export default function SemesterCard({ semester }: SemesterCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl group-hover:text-primary transition-colors">
-            {semester.title}
+            {getOrdinalSuffix(semester.id)} Semester
           </CardTitle>
           <div className="bg-primary/10 rounded-full p-2 group-hover:bg-primary/20 transition-colors">
             <GraduationCap className="h-5 w-5 text-primary" />

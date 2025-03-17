@@ -13,41 +13,56 @@ export default function SemesterPage({ params }: { params: { id: string } }) {
     notFound()
   }
 
+  // Function to get ordinal suffix for semester number
+  const getOrdinalSuffix = (num: number): string => {
+    const j = num % 10;
+    const k = num % 100;
+    if (j === 1 && k !== 11) {
+      return num + "st";
+    }
+    if (j === 2 && k !== 12) {
+      return num + "nd";
+    }
+    if (j === 3 && k !== 13) {
+      return num + "rd";
+    }
+    return num + "th";
+  };
+
   const semesterData = getSemesterData(semesterId)
 
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="space-y-8 mb-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            
-            <div>
-              <h1 className="text-3xl font-bold">Semester {semesterId}</h1>
-              {/* <p className="text-muted-foreground">{semesterData.description}</p> */}
-            </div>
-            <div className="bg-primary/10 p-2 rounded-full">
-              <GraduationCap className="h-6 w-6 text-primary" />
-            </div>
-          </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="outline" asChild className="gap-1.5 h-9 px-3 mr-1">
+            <Link href="/">
+              <ChevronLeft className="h-4 w-4" />
+              <span className="text-sm">Back</span>
+            </Link>
+          </Button>
           
-
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center">
+            <span>{getOrdinalSuffix(semesterId)} Semester</span>
+            <div className="bg-primary/10 p-1.5 rounded-full ml-3 inline-flex">
+              <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+            </div>
+          </h1>
         </div>
 
         <div className="grid grid-cols-1 gap-8">
           {semesterData.subjects.map((subject) => (
-            <SubjectCard key={subject.id} subject={subject} />
+            <SubjectCard 
+              key={subject.id} 
+              subject={{
+                ...subject,
+                semester: semesterId.toString()
+              }} 
+            />
           ))}
         </div>
       </div>
-
-      <Button variant="outline" asChild className="gap-2">
-            <Link href="/">
-              <ChevronLeft className="h-4 w-4" />
-              <span>Back to Semesters</span>
-            </Link>
-          </Button>
     </div>
-    
   )
 }
 
