@@ -5,7 +5,7 @@ import { Home, Info, Menu, X, Moon, Sun, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
 import InstallPWAButton from "@/components/install-pwa-button"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import Image from "next/image"
 import logoImage from "/assets/logo.png"
@@ -13,8 +13,12 @@ import logoImage from "/assets/logo.png"
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [headerVisible, setHeaderVisible] = useState(true)
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const lastScrollY = useRef(0)
+  const headerHeight = 64; // 4rem or 64px, the height of the header
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen)
@@ -27,24 +31,65 @@ export default function Header() {
   // Handle component mount to prevent hydration mismatch
   useEffect(() => {
     setMounted(true)
+    
+    // Apply top margin to body to prevent content from going under navbar
+    document.body.style.paddingTop = `${headerHeight}px`;
+    
+    return () => {
+      document.body.style.paddingTop = '0';
+    };
   }, [])
 
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
+      const currentScrollY = window.scrollY
+      
+      // Determine if scrolled for styling
+      setScrolled(currentScrollY > 10)
+      
+      // Hide header when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setHeaderVisible(false)
+        
+        // Close mobile menu when scrolling
+        if (mobileMenuOpen) {
+          closeMobileMenu()
+        }
+      } else {
+        setHeaderVisible(true)
+      }
+      
+      lastScrollY.current = currentScrollY
     }
     
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [mobileMenuOpen])
 
   // Close mobile menu when route changes
   useEffect(() => {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  // Prevent scrolling when mobile menu is open
+  // Handle click outside to close mobile menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        closeMobileMenu()
+      }
+    }
+
+    if (mobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [mobileMenuOpen])
+
+  // Handle scroll when mobile menu is open
   useEffect(() => {
     if (!mounted) return;
     
@@ -59,24 +104,22 @@ export default function Header() {
   }, [mobileMenuOpen, mounted])
 
   return (
-    <header className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
+    <header className={`fixed top-0 left-0 right-0 z-50 w-full border-b transition-all duration-300 ${
       scrolled ? "bg-background/95 backdrop-blur-md shadow-sm" : "bg-background/80 backdrop-blur-sm"
-    } supports-[backdrop-filter]:bg-background/60`}>
+    } supports-[backdrop-filter]:bg-background/60 transform ${
+      headerVisible ? "translate-y-0" : "-translate-y-full"
+    }`}>
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl group">
-          <div className="relative flex items-center">
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary/60 to-blue-500/60 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative bg-background rounded-full p-1.5 overflow-hidden">
-              <Image 
-                src={logoImage} 
-                alt="ByteAcademy Logo" 
-                width={20} 
-                height={20} 
-                className="h-5 w-5 object-contain group-hover:scale-110 transition-transform duration-300" 
-              />
-            </div>
-          </div>
-          <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent group-hover:from-blue-500 group-hover:to-primary transition-all duration-500">ByteAcademy</span>
+        <Link href="/" className="flex items-center gap-2 font-bold text-xl">
+          <Image 
+            src={logoImage} 
+            alt="ByteAcademy Logo" 
+            width={32} 
+            height={32} 
+            className="h-8 w-8 object-contain md:h-9 md:w-9" 
+            priority
+          />
+          <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">ByteAcademy</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -117,9 +160,9 @@ export default function Header() {
             variant="outline" 
             size="icon" 
             onClick={toggleMobileMenu} 
-            className={`h-9 w-9 transition-all duration-300 ${mobileMenuOpen ? "bg-primary/10 text-primary border-primary/20" : ""}`}
+            className={`h-9 w-9 transition-all duration-300 ${mobileMenuOpen ? "bg-primary/10 text-primary border-primary/20 ring-1 ring-primary/50" : ""}`}
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? <X className="h-5 w-5 text-primary font-bold" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
@@ -127,66 +170,96 @@ export default function Header() {
       {/* Mobile Menu - Only render on client side to prevent hydration mismatch */}
       {mounted && mobileMenuOpen && (
         <>
+          {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40" 
             onClick={closeMobileMenu}
             aria-hidden="true"
           />
+          
+          {/* Mobile Menu Panel */}
           <div 
-            className="fixed inset-x-0 top-16 z-50 md:hidden animate-in slide-in-from-top-5 duration-300 max-h-[calc(100vh-4rem)] overflow-y-auto"
+            ref={mobileMenuRef}
+            className="fixed inset-x-0 top-0 z-50 md:hidden animate-in slide-in-from-top-5 duration-300 overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"
           >
-            <div className="container py-6 bg-background border-x border-b rounded-b-xl shadow-lg">
-              <nav className="flex flex-col space-y-1">
-                <Link 
-                  href="/" 
-                  className={`flex items-center gap-3 text-sm font-medium p-3 rounded-lg transition-colors ${
-                    pathname === "/" 
-                      ? "bg-primary/10 text-primary" 
-                      : "hover:bg-muted"
-                  }`} 
-                  onClick={closeMobileMenu}
-                >
-                  <div className={`p-1.5 rounded-md ${pathname === "/" ? "bg-primary/10" : "bg-muted"}`}>
-                    <Home className="h-4 w-4" />
-                  </div>
-                  <span>Home</span>
-                  {pathname === "/" && <Sparkles className="h-3.5 w-3.5 ml-auto text-primary" />}
+            <div className="bg-background border-b shadow-lg">
+              {/* Header with close button */}
+              <div className="container flex items-center justify-between h-16 border-b">
+                <Link href="/" className="flex items-center gap-2 font-bold text-xl" onClick={closeMobileMenu}>
+                  <Image 
+                    src={logoImage} 
+                    alt="ByteAcademy Logo" 
+                    width={32} 
+                    height={32} 
+                    className="h-8 w-8 object-contain" 
+                    priority
+                  />
+                  <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">ByteAcademy</span>
                 </Link>
-                
-                <Link 
-                  href="/about" 
-                  className={`flex items-center gap-3 text-sm font-medium p-3 rounded-lg transition-colors ${
-                    pathname === "/about" 
-                      ? "bg-primary/10 text-primary" 
-                      : "hover:bg-muted"
-                  }`} 
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
                   onClick={closeMobileMenu}
+                  className="h-9 w-9"
                 >
-                  <div className={`p-1.5 rounded-md ${pathname === "/about" ? "bg-primary/10" : "bg-muted"}`}>
-                    <Info className="h-4 w-4" />
-                  </div>
-                  <span>About</span>
-                  {pathname === "/about" && <Sparkles className="h-3.5 w-3.5 ml-auto text-primary" />}
-                </Link>
-                
-                <div className="pt-4 mt-4 border-t border-muted">
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                    <div className="flex items-center gap-3 text-sm font-medium">
-                      <div className="p-1.5 rounded-md bg-background">
-                        <Sun className="h-4 w-4 dark:hidden" />
-                        <Moon className="h-4 w-4 hidden dark:block" />
+                  <X className="h-5 w-5 text-primary font-bold" />
+                </Button>
+              </div>
+              
+              {/* Menu content */}
+              <div className="container py-6">
+                <nav className="flex flex-col space-y-1">
+                  <Link 
+                    href="/" 
+                    className={`flex items-center gap-3 text-sm font-medium p-3 rounded-lg transition-colors ${
+                      pathname === "/" 
+                        ? "bg-primary/10 text-primary" 
+                        : "hover:bg-muted"
+                    }`} 
+                    onClick={closeMobileMenu}
+                  >
+                    <div className={`p-1.5 rounded-md ${pathname === "/" ? "bg-primary/10" : "bg-muted"}`}>
+                      <Home className="h-4 w-4" />
+                    </div>
+                    <span>Home</span>
+                    {pathname === "/" && <Sparkles className="h-3.5 w-3.5 ml-auto text-primary" />}
+                  </Link>
+                  
+                  <Link 
+                    href="/about" 
+                    className={`flex items-center gap-3 text-sm font-medium p-3 rounded-lg transition-colors ${
+                      pathname === "/about" 
+                        ? "bg-primary/10 text-primary" 
+                        : "hover:bg-muted"
+                    }`} 
+                    onClick={closeMobileMenu}
+                  >
+                    <div className={`p-1.5 rounded-md ${pathname === "/about" ? "bg-primary/10" : "bg-muted"}`}>
+                      <Info className="h-4 w-4" />
+                    </div>
+                    <span>About</span>
+                    {pathname === "/about" && <Sparkles className="h-3.5 w-3.5 ml-auto text-primary" />}
+                  </Link>
+                  
+                  <div className="pt-4 mt-4 border-t border-muted">
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                      <div className="flex items-center gap-3 text-sm font-medium">
+                        <div className="p-1.5 rounded-md bg-background">
+                          <Moon className="h-4 w-4 dark:hidden" />
+                          <Sun className="h-4 w-4 hidden dark:block" />
+                        </div>
+                        <span>Theme</span>
                       </div>
-                      <span>Theme</span>
-                    </div>
-                    <div onClick={closeMobileMenu}>
-                      <ThemeToggle />
+                      <div onClick={closeMobileMenu}>
+                        <ThemeToggle />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </nav>
+                </nav>
+              </div>
             </div>
           </div>
         </>
