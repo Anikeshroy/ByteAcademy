@@ -7,6 +7,7 @@ import Footer from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 import Script from "next/script"
 import PWANotification from "@/components/pwa-notification"
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -66,6 +67,7 @@ export default function RootLayout({
           </div>
         </ThemeProvider>
         <Script src="/pwa.js" strategy="lazyOnload" />
+        <Analytics />
       </body>
     </html>
   )
