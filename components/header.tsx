@@ -1,5 +1,6 @@
 "use client"
 
+// Updated header with improved mobile view and fixed positioning
 import Link from "next/link"
 import { Home, Info, Menu, X, Moon, Sun, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
