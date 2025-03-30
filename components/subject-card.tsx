@@ -4,9 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ResourceList from "@/components/resource-list"
 import type { ResourceType } from "@/lib/types"
-import { FileText, Video, FileDown, BookMarked, Sparkles, ListFilter, GraduationCap } from "lucide-react"
+import { FileText, Video, FileDown, BookMarked, Sparkles, ListFilter, BookOpen } from "lucide-react"
 import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
 interface SubjectCardProps {
   subject: {

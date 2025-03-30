@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Home, Info, Menu, X, Download, Moon, Sun, Sparkles } from "lucide-react"
+import { Home, Info, Menu, X, Moon, Sun, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
 import InstallPWAButton from "@/components/install-pwa-button"

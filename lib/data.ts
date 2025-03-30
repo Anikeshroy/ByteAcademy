@@ -963,6 +963,31 @@ const semestersData: Record<number, SemesterDataType> = {
           notes: [],
         },
       },
+      {
+        id: "cs801",
+        title: "Anikesh Project",
+        code: "CS801",
+        description: "Full-semester practical project implementation",
+        resources: {
+          questions: [],
+          videos: [],
+          videoSolutions: [],
+          notes: [],
+        },
+      },
+
+      {
+        id: "cs801",
+        title: "Anikesh Project 2",
+        code: "CS801",
+        description: "Full-semester practical project implementation",
+        resources: {
+          questions: [],
+          videos: [],
+          videoSolutions: [],
+          notes: [],
+        },
+      },
     ],
   },
 };
