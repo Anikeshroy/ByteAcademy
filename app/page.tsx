@@ -1,4 +1,4 @@
-import SemesterCard from "@/components/semester-card"
+import SemesterCard from "@/components/semester-card";
 // import { GraduationCap } from "lucide-react"
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
     { id: 6, title: "Semester 6", description: "Bihar Engineering University" },
     { id: 7, title: "Semester 7", description: "Bihar Engineering University" },
     { id: 8, title: "Semester 8", description: "Bihar Engineering University" },
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
@@ -22,11 +22,12 @@ export default function Home() {
             <div className="flex items-center justify-center gap-3 mb-2">
               {/* <GraduationCap className="h-10 w-10 text-primary" /> */}
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-              Ultimate Resources Hub for CSE Students
+                Ultimate Resources Hub for CSE Students
               </h1>
             </div>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Access Previous Year Papers, Video Solutions & Handwritten Notes for all Semesters.
+              Access Previous Year Papers, Video Solutions & Handwritten Notes
+              for all Semesters.
             </p>
           </div>
 
@@ -36,15 +37,17 @@ export default function Home() {
               <div className="w-full border-t border-muted"></div>
             </div>
             <div className="relative flex justify-center">
-              <span className="bg-background px-4 text-muted-foreground text-sm">All Semesters</span>
+              <span className="bg-background px-4 text-muted-foreground text-sm">
+                All Semesters
+              </span>
             </div>
           </div>
 
           {/* Semester cards with improved grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-4">
             {semesters.map((semester, index) => (
-              <div 
-                key={semester.id} 
+              <div
+                key={semester.id}
                 className="transition-all duration-300 hover:translate-y-[-4px]"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
@@ -54,9 +57,9 @@ export default function Home() {
           </div>
         </section>
       </div>
-      
+
       {/* Footer accent */}
       <div className="h-1 bg-gradient-to-r from-primary/80 via-primary to-primary/80 mt-10"></div>
     </div>
-  )
-} 
+  );
+}
