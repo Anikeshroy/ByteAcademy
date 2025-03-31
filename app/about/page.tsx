@@ -1,43 +1,42 @@
-import { Github, Linkedin, Instagram, Mail, ExternalLink, Sparkles, Youtube, FileText, BookOpen } from "lucide-react"
+import { Github, Linkedin, Instagram, Mail, ExternalLink, Youtube, FileText, BookOpen } from "lucide-react"
 import Image from "next/image"
 import profilepic from "/assets/ani1.jpg"
+import rahulAvatar from "/assets/rahul.jpg" // Replace with actual path
+import sanjeevAvatar from "/assets/sanjeev.jpg" // Replace with actual path
+import shivamAvatar from "/assets/shivam.jpeg" // Replace with actual path
 import { Button } from "@/components/ui/button"
 
-// Update contributor data
+// Update contributor data with directly imported images
 const contributors = [
   {
     name: "Rahul Kumar",
-    role: "Video Lectures",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=rahul",
-    social: {
-      youtube: "https://youtube.com/@rahul",
-      instagram: "https://instagram.com/rahul"
-    },
+    college: "GEC Jamui",
+    batch: "2022-2026",
+    contribution: "Video Lectures",
+    avatar: rahulAvatar,
     icon: <Youtube className="h-4 w-4 text-red-500" />,
-    color: "from-red-500/20 to-red-500/5",
-    textColor: "text-red-500"
+    color: "text-red-500",
+    bgColor: "bg-red-500/10"
   },
   {
-    name: "Priya Singh",
-    role: "Notes Contributor",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=priya",
-    social: {
-      instagram: "https://instagram.com/priya"
-    },
+    name: "Sanjeev Ranjan",
+    college: "GEC Jamui",
+    batch: "2022-2026",
+    contribution: "Handwritten Notes",
+    avatar: sanjeevAvatar,
     icon: <BookOpen className="h-4 w-4 text-green-500" />,
-    color: "from-green-500/20 to-green-500/5",
-    textColor: "text-green-500"
+    color: "text-green-500",
+    bgColor: "bg-green-500/10"
   },
   {
-    name: "Amit Shah",
-    role: "Question Papers",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=amit",
-    social: {
-      instagram: "https://instagram.com/amit"
-    },
+    name: "Shivam Jaiswal",
+    college: "GEC Jamui",
+    batch: "2023-2027",
+    contribution: "Question Papers",
+    avatar: shivamAvatar,
     icon: <FileText className="h-4 w-4 text-blue-500" />,
-    color: "from-blue-500/20 to-blue-500/5",
-    textColor: "text-blue-500"
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10"
   }
 ]
 
@@ -165,109 +164,61 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Enhanced Contributors Section */}
-        <section className="relative">
-          {/* Modern background with animated gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-blue-500/5 to-primary/10 rounded-3xl -z-10 animate-gradient-x" />
-          <div className="absolute -top-10 right-0 md:-right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl opacity-60" />
-          <div className="absolute -bottom-10 left-0 md:-left-10 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl opacity-60" />
+        {/* Contributors list with modern design */}
+        <div className="bg-card/50 backdrop-blur-sm rounded-xl border border-muted/30 overflow-hidden">
+          <div className="p-4 sm:p-6 border-b border-muted/20">
+            <h3 className="text-lg font-medium">Our Contributors</h3>
+            <p className="text-sm text-muted-foreground mt-1">People who have contributed to ByteAcademy</p>
+          </div>
           
-          {/* Add padding to the entire content area */}
-          <div className="px-4 sm:px-6 md:px-8 py-8 sm:py-10">
-            {/* Section header with modern design - improved spacing */}
-            <div className="text-center mb-10 relative">
-              <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-muted/50 to-transparent -z-10" />
-              <h2 className="inline-block px-6 py-2 bg-background/80 backdrop-blur-sm rounded-full text-3xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-                Our Contributors
-              </h2>
-              <div className="mt-3 flex justify-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm">
-                  <Sparkles className="h-4 w-4" />
-                  <span>The people behind ByteAcademy</span>
+          <div className="divide-y divide-muted/20">
+            {contributors.map((contributor, index) => (
+              <div key={index} className="p-4 sm:p-6 flex items-center gap-4 hover:bg-muted/20 transition-colors">
+                {/* Avatar */}
+                <div className="relative flex-shrink-0">
+                  <div className={`absolute inset-0 rounded-full blur-sm ${contributor.bgColor} animate-pulse`} style={{ animationDuration: '3s' }} />
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-background">
+                    <Image
+                      src={contributor.avatar}
+                      alt={contributor.name}
+                      width={56}
+                      height={56}
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Modern card grid with enhanced design - smaller cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {contributors.map((contributor, index) => (
-                <div 
-                  key={index}
-                  className="group relative overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-                >
-                  {/* Card background with personalized gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${contributor.color} opacity-20 group-hover:opacity-40 transition-opacity`} />
-                  <div className="absolute inset-0 bg-card/80 backdrop-blur-sm" />
-                  
-                  {/* Card content with modern layout - reduced padding */}
-                  <div className="relative p-6">
-                    <div className="flex flex-col items-center text-center">
-                      {/* Avatar with enhanced design - smaller size */}
-                      <div className="relative mb-4">
-                        <div className={`absolute inset-0 rounded-full blur-sm bg-gradient-to-r ${contributor.color} animate-pulse`} style={{ animationDuration: '3s' }} />
-                        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-background shadow-md">
-                          <Image
-                            src={contributor.avatar}
-                            alt={contributor.name}
-                            width={80}
-                            height={80}
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                        </div>
-                        <div className={`absolute -bottom-1.5 right-0 bg-background rounded-full p-2 border border-muted/30 ${contributor.textColor} shadow-sm`}>
-                          {contributor.icon}
-                        </div>
-                      </div>
-
-                      {/* Contributor info with improved spacing */}
-                      <h3 className="font-bold text-lg mb-1.5">{contributor.name}</h3>
-                      <div className={`px-3 py-1 rounded-full text-xs font-medium ${contributor.color} ${contributor.textColor}`}>
-                        {contributor.role}
-                      </div>
-                      
-                      {/* Social links with modern design and better spacing */}
-                      <div className="mt-4 flex justify-center gap-3">
-                        {contributor.social.youtube && (
-                          <a
-                            href={contributor.social.youtube}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2.5 rounded-full bg-background hover:bg-red-500 hover:text-white border border-muted/30 transition-all duration-300 shadow-sm hover:shadow-md group/btn"
-                          >
-                            <Youtube className="h-4 w-4 group-hover/btn:scale-110 transition-transform" />
-                          </a>
-                        )}
-                        {contributor.social.instagram && (
-                          <a
-                            href={contributor.social.instagram}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2.5 rounded-full bg-background hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-500 hover:text-white border border-muted/30 transition-all duration-300 shadow-sm hover:shadow-md group/btn"
-                          >
-                            <Instagram className="h-4 w-4 group-hover/btn:scale-110 transition-transform" />
-                          </a>
-                        )}
-                      </div>
+                
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div>
+                      <h4 className="font-semibold truncate">{contributor.name}</h4>
+                      <p className="text-sm text-muted-foreground">{contributor.college} • {contributor.batch}</p>
+                    </div>
+                    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${contributor.bgColor} ${contributor.color} self-start sm:self-center`}>
+                      {contributor.icon}
+                      <span>{contributor.contribution}</span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Modern call to action with improved spacing and design */}
-            <div className="mt-12 mb-8 flex justify-center">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/50 to-blue-500/50 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity animate-pulse" style={{ animationDuration: '3s' }} />
-                <Button asChild className="relative bg-background hover:bg-background/90 border border-muted/30 text-foreground shadow-md hover:shadow-lg group-hover:border-primary/20 transition-all duration-300">
-                  <a href="mailto:anikeshroy62040@gmail.com?subject=ByteAcademy%20Contribution" className="px-6 py-5">
-                    <span className="font-medium">Become a Contributor</span>
-                    <Mail className="h-4 w-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
-                  </a>
-                </Button>
               </div>
-            </div>
+            ))}
           </div>
-        </section>
+          
+          {/* Call to action */}
+          <div className="p-4 sm:p-6 bg-muted/20 border-t border-muted/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h4 className="font-medium">Want to contribute?</h4>
+              <p className="text-sm text-muted-foreground">Join our team of contributors and help students access better resources</p>
+            </div>
+            <Button asChild className="whitespace-nowrap self-start sm:self-auto">
+              <a href="mailto:anikeshroy62040@gmail.com?subject=ByteAcademy%20Contribution" className="flex items-center gap-2">
+                <span>Contact Us</span>
+                <Mail className="h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )
