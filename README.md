@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ByteAcademy
 
-## Getting Started
+![ByteAcademy Logo](/public/logo.png)
 
-First, run the development server:
+ByteAcademy is a centralized educational platform designed to simplify access to learning resources for students. It provides organized study materials, video lectures, notes, and previous year question papers in one place.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Organized Resources**: Access study materials categorized by subject and type
+- **Multiple Resource Types**: Video lectures, handwritten notes, question papers, and more
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Dark/Light Mode**: Choose your preferred theme
+- **PWA Support**: Install as a standalone app on your device
+- **Offline Access**: Access certain resources even without an internet connection
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💻 Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **Icons**: [Lucide Icons](https://lucide.dev/)
 
-## Learn More
+## 🧑‍💻 Development
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js 18.0.0 or later
+- npm or yarn
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/byteacademy.git
+   cd byteacademy
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Run the development server
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+
+### Developer
+
+- **Anikesh Roy** - Full Stack Developer
+  - [LinkedIn](https://www.linkedin.com/in/anikesh-roy/)
+  - [GitHub](https://github.com/Anikeshroy)
+  - [Instagram](https://www.instagram.com/call__me.ani/)
+
+### Content Contributors 👥
+
+- **Rahul Kumar** - Video Lectures (GEC Jamui, 2022-2026)
+- **Sanjeev Ranjan** - Handwritten Notes (GEC Jamui, 2022-2026)
+- **Shivam Jaiswal** - Question Papers (GEC Jamui, 2023-2027)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgements
+
+- Special thanks to all the contributors who have helped make ByteAcademy a valuable resource for students
+- Thanks to the open-source community for the amazing tools and libraries that made this project possible
+
+## 📧 Contact
+
+For any inquiries or suggestions, please contact:
+- Email: anikeshroy62040@gmail.com
+
+---
+
+Made with ❤️ by Anikesh Roy
