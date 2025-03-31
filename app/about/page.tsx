@@ -43,7 +43,7 @@ const contributors = [
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-8 md:py-16 overflow-x-hidden">
+    <div className="container mx-auto px-4 py-8 md:py-16 overflow-visible">
       <div className="max-w-5xl mx-auto space-y-16">
         {/* Profile section with improved design */}
         <div className="relative">
@@ -56,15 +56,15 @@ export default function AboutPage() {
             {/* Two-column layout with improved spacing */}
             <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-stretch">
               {/* Left column: Profile image with enhanced design */}
-              <div className="relative group w-full md:w-auto flex-shrink-0 md:flex md:flex-col">
+              <div className="relative group w-full md:w-auto flex-shrink-0 md:flex md:flex-col mt-6 md:mt-0">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-500 to-purple-500 rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
                 <div className="relative p-6 bg-card/50 backdrop-blur-sm rounded-2xl border border-muted/30 flex flex-col justify-center h-full">
                   {/* Animated rings around avatar */}
-                  <div className="relative mx-auto">
+                  <div className="relative mx-auto mt-4 md:mt-0">
                     <div className="absolute inset-0 -m-3 bg-gradient-to-tr from-primary/40 via-blue-500/40 to-primary/40 rounded-full animate-spin-slow" style={{ animationDuration: '12s' }}></div>
                     <div className="absolute inset-0 -m-6 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-primary/20 rounded-full animate-spin-slow" style={{ animationDuration: '20s', animationDirection: 'reverse' }}></div>
                     
-                    {/* Avatar with border - removed star icon */}
+                    {/* Avatar with border */}
                     <div className="relative w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-background shadow-xl mx-auto">
                       <Image
                         src={profilepic}
