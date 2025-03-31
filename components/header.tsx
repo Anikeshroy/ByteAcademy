@@ -64,17 +64,14 @@ export default function Header() {
     } supports-[backdrop-filter]:bg-background/60`}>
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl group">
-          <div className="relative flex items-center">
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary/60 to-blue-500/60 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative bg-background rounded-full p-1.5 overflow-hidden">
-              <Image 
-                src={logoImage} 
-                alt="ByteAcademy Logo" 
-                width={20} 
-                height={20} 
-                className="h-5 w-5 object-contain group-hover:scale-110 transition-transform duration-300" 
-              />
-            </div>
+          <div className="flex items-center">
+            <Image 
+              src={logoImage} 
+              alt="ByteAcademy Logo" 
+              width={32} 
+              height={32} 
+              className="h-8 w-8 object-contain" 
+            />
           </div>
           <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent group-hover:from-blue-500 group-hover:to-primary transition-all duration-500">ByteAcademy</span>
         </Link>
@@ -106,7 +103,17 @@ export default function Header() {
           
           <div className="flex items-center gap-2">
             <InstallPWAButton />
-            <ThemeToggle />
+            <div className="relative group">
+              <ThemeToggle />
+              <div className="absolute right-0 top-full mt-2 w-40 p-2 bg-background rounded-md shadow-md border border-muted/30 text-xs opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                <p className="text-center">
+                  <span className="dark:hidden">Light mode active</span>
+                  <span className="hidden dark:inline">Dark mode active</span>
+                  <br />
+                  <span className="text-muted-foreground">Click to switch theme</span>
+                </p>
+              </div>
+            </div>
           </div>
         </nav>
 
@@ -117,7 +124,7 @@ export default function Header() {
             variant="outline" 
             size="icon" 
             onClick={toggleMobileMenu} 
-            className={`h-9 w-9 transition-all duration-300 ${mobileMenuOpen ? "bg-primary/10 text-primary border-primary/20" : ""}`}
+            className={`h-9 w-9 transition-all duration-300 ${mobileMenuOpen ? "bg-primary text-primary-foreground border-primary" : ""}`}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
@@ -133,12 +140,23 @@ export default function Header() {
             aria-hidden="true"
           />
           <div 
-            className="fixed inset-x-0 top-16 z-50 md:hidden animate-in slide-in-from-top-5 duration-300 max-h-[calc(100vh-4rem)] overflow-y-auto"
+            className="fixed inset-x-0 top-0 z-50 md:hidden animate-in slide-in-from-top-5 duration-300 max-h-[calc(100vh-4rem)] overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"
           >
             <div className="container py-6 bg-background border-x border-b rounded-b-xl shadow-lg">
+              <div className="flex justify-end mb-4">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={closeMobileMenu}
+                  className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 text-primary"
+                  aria-label="Close menu"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+              </div>
               <nav className="flex flex-col space-y-1">
                 <Link 
                   href="/" 
@@ -179,7 +197,13 @@ export default function Header() {
                         <Sun className="h-4 w-4 dark:hidden" />
                         <Moon className="h-4 w-4 hidden dark:block" />
                       </div>
-                      <span>Theme</span>
+                      <div>
+                        <span>Theme</span>
+                        <p className="text-xs text-muted-foreground">
+                          <span className="dark:hidden">Light mode active</span>
+                          <span className="hidden dark:inline">Dark mode active</span>
+                        </p>
+                      </div>
                     </div>
                     <div onClick={closeMobileMenu}>
                       <ThemeToggle />
