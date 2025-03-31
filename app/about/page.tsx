@@ -43,13 +43,13 @@ const contributors = [
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-8 md:py-16 overflow-visible">
+    <div className="container mx-auto px-4 py-8 md:py-16 overflow-x-clip">
       <div className="max-w-5xl mx-auto space-y-16">
         {/* Profile section with improved design */}
         <div className="relative">
           {/* Enhanced background decorative elements */}
-          <div className="absolute top-0 right-0 md:-right-20 w-40 md:w-64 h-40 md:h-64 bg-primary/5 rounded-full blur-3xl opacity-70 animate-pulse" style={{ animationDuration: '15s' }}></div>
-          <div className="absolute bottom-0 left-0 md:-left-20 w-40 md:w-64 h-40 md:h-64 bg-primary/5 rounded-full blur-3xl opacity-70 animate-pulse" style={{ animationDuration: '20s' }}></div>
+          <div className="absolute top-0 right-0 md:-right-10 w-40 md:w-64 h-40 md:h-64 bg-primary/5 rounded-full blur-3xl opacity-70 animate-pulse" style={{ animationDuration: '15s' }}></div>
+          <div className="absolute bottom-0 left-0 md:-left-10 w-40 md:w-64 h-40 md:h-64 bg-primary/5 rounded-full blur-3xl opacity-70 animate-pulse" style={{ animationDuration: '20s' }}></div>
           <div className="absolute top-1/3 right-1/4 w-20 h-20 md:w-24 md:h-24 bg-blue-500/5 rounded-full blur-2xl opacity-60 animate-pulse" style={{ animationDuration: '12s' }}></div>
           
           <div className="relative z-10 bg-card/80 backdrop-blur-sm border border-muted/30 rounded-2xl p-6 md:p-10 shadow-lg">
@@ -169,8 +169,8 @@ export default function AboutPage() {
         <section className="relative">
           {/* Modern background with animated gradient */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-blue-500/5 to-primary/10 rounded-3xl -z-10 animate-gradient-x" />
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl opacity-60" />
-          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl opacity-60" />
+          <div className="absolute -top-10 right-0 md:-right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl opacity-60" />
+          <div className="absolute -bottom-10 left-0 md:-left-10 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl opacity-60" />
           
           {/* Add padding to the entire content area */}
           <div className="px-4 sm:px-6 md:px-8 py-8 sm:py-10">
