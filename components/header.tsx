@@ -49,6 +49,33 @@ export default function Header() {
     if (!mounted) return;
   }, [mobileMenuOpen, mounted])
 
+  // Add this effect to handle clicks anywhere on the document
+  useEffect(() => {
+    if (!mounted || !mobileMenuOpen) return;
+    
+    // Function to handle clicks anywhere on the document
+    const handleDocumentClick = (event: MouseEvent) => {
+      // Check if the click is outside the mobile menu
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuButton = document.getElementById('mobile-menu-button');
+      
+      if (mobileMenu && menuButton) {
+        // If the click is not on the menu or the button, close the menu
+        if (!mobileMenu.contains(event.target as Node) && !menuButton.contains(event.target as Node)) {
+          closeMobileMenu();
+        }
+      }
+    };
+    
+    // Add the event listener
+    document.addEventListener('click', handleDocumentClick);
+    
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, [mobileMenuOpen, mounted, closeMobileMenu]);
+
   return (
     <header className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
       scrolled ? "bg-background/95 backdrop-blur-md shadow-sm" : "bg-background/80 backdrop-blur-sm"
@@ -112,6 +139,7 @@ export default function Header() {
         <div className="flex md:hidden items-center gap-3">
           <InstallPWAButton />
           <Button 
+            id="mobile-menu-button"
             variant="outline" 
             size="icon" 
             onClick={toggleMobileMenu} 
@@ -131,6 +159,7 @@ export default function Header() {
             aria-hidden="true"
           />
           <div 
+            id="mobile-menu"
             className="fixed inset-x-0 top-0 z-50 md:hidden animate-in slide-in-from-top-5 duration-300 max-h-[calc(100vh-4rem)] overflow-y-auto"
             role="dialog"
             aria-modal="true"

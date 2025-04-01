@@ -22,7 +22,7 @@ export default function Home() {
             <div className="flex items-center justify-center gap-3 mb-2">
               {/* <GraduationCap className="h-10 w-10 text-primary" /> */}
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-                Resources for CSE Students
+              The Ultimate Resources Hub for CSE Students
               </h1>
             </div>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
