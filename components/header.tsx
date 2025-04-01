@@ -44,18 +44,9 @@ export default function Header() {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  // Prevent scrolling when mobile menu is open
+  // Remove the effect that prevents scrolling when mobile menu is open
   useEffect(() => {
     if (!mounted) return;
-    
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
-    return () => {
-      document.body.style.overflow = ""
-    }
   }, [mobileMenuOpen, mounted])
 
   return (
@@ -146,7 +137,19 @@ export default function Header() {
             aria-label="Mobile navigation menu"
           >
             <div className="container py-6 bg-background border-x border-b rounded-b-xl shadow-lg">
-              <div className="flex justify-end mb-4">
+              <div className="flex justify-between items-center mb-4">
+                <Link href="/" className="flex items-center gap-2 font-bold text-xl group" onClick={closeMobileMenu}>
+                  <div className="flex items-center">
+                    <Image 
+                      src={logoImage} 
+                      alt="ByteAcademy Logo" 
+                      width={32} 
+                      height={32} 
+                      className="h-8 w-8 object-contain" 
+                    />
+                  </div>
+                  <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent group-hover:from-blue-500 group-hover:to-primary transition-all duration-500">ByteAcademy</span>
+                </Link>
                 <Button 
                   variant="ghost" 
                   size="icon" 
