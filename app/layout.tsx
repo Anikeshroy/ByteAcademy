@@ -19,8 +19,35 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "ByteAcademy",
-  description: "Resources for Computer Science Engineering students from Semester 1 to 8",
+  title: "ByteAcademy - CSE Resources",
+  description: "A platform for CSE students to access study materials, previous year question papers, notes, and video solutions.",
+  metadataBase: new URL('https://byte-academy-peach.vercel.app/'),
+  openGraph: {
+    title: "ByteAcademy - CSE Resources",
+    description: "A platform for CSE students to access study materials, previous year question papers, notes, and video solutions.",
+    url: "https://byte-academy-peach.vercel.app/",
+    siteName: "ByteAcademy",
+    images: [
+      {
+        url: "/export.png",
+        width: 1200,
+        height: 630,
+        alt: "ByteAcademy - CSE Resources",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ByteAcademy - CSE Resources",
+    description: "A platform for CSE students to access study materials, previous year question papers, notes, and video solutions.",
+    images: ["/export.png"],
+    creator: "@yourtwitterhandle",
+  },
+  alternates: {
+    canonical: "https://byte-academy-peach.vercel.app/",
+  },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

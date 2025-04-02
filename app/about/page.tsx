@@ -5,6 +5,7 @@ import rahulAvatar from "/assets/rahul.jpg" // Replace with actual path
 import sanjeevAvatar from "/assets/sanjeev.jpg" // Replace with actual path
 import shivamAvatar from "/assets/shivam.jpeg" // Replace with actual path
 import { Button } from "@/components/ui/button"
+import type { Metadata } from 'next'
 
 // Update contributor data with directly imported images
 const contributors = [
@@ -39,6 +40,22 @@ const contributors = [
     bgColor: "bg-blue-500/10"
   }
 ]
+
+export const metadata: Metadata = {
+  title: 'About ByteAcademy - CSE Resources',
+  description: 'Learn more about ByteAcademy and our mission to provide quality CSE resources.',
+  openGraph: {
+    title: 'About ByteAcademy - CSE Resources',
+    description: 'Learn more about ByteAcademy and our mission to provide quality CSE resources.',
+    url: 'https://byte-academy-peach.vercel.app/about',
+    images: ['/export.png'],
+  },
+  twitter: {
+    title: 'About ByteAcademy - CSE Resources',
+    description: 'Learn more about ByteAcademy and our mission to provide quality CSE resources.',
+    images: ['/export.png'],
+  },
+}
 
 export default function AboutPage() {
   return (
