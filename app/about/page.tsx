@@ -48,12 +48,12 @@ export const metadata: Metadata = {
     title: 'About ByteAcademy - CSE Resources',
     description: 'Learn more about ByteAcademy and our mission to provide quality CSE resources.',
     url: 'https://byte-academy-peach.vercel.app/about',
-    images: ['/export.png'],
+    images: ['/og-about.png'],
   },
   twitter: {
     title: 'About ByteAcademy - CSE Resources',
     description: 'Learn more about ByteAcademy and our mission to provide quality CSE resources.',
-    images: ['/export.png'],
+    images: ['/og-about.png'],
   },
 }
 
