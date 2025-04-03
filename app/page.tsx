@@ -1,5 +1,9 @@
 import SemesterCard from "@/components/semester-card"
 // import { GraduationCap } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Sparkles } from "lucide-react"
+import { Link } from "lucide-react"
+import ShareSection from "@/components/share-section"
 
 export default function Home() {
   const semesters = [
@@ -19,15 +23,10 @@ export default function Home() {
         <section className="space-y-10">
           {/* Header with subtle animation */}
           <div className="text-center space-y-4 max-w-4xl mx-auto">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              {/* <GraduationCap className="h-10 w-10 text-primary" /> */}
-              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-              The Ultimate Resources Hub for CSE Students
-              </h1>
-            </div>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Access Previous Year Papers, Video Solutions & Handwritten Notes for all Semesters.
-            </p>
+            {/* <GraduationCap className="h-10 w-10 text-primary" /> */}
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+            The Ultimate Resources Hub for CSE Students
+            </h1>
           </div>
 
           {/* Decorative divider */}
@@ -53,6 +52,9 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* Add the ShareSection component */}
+        <ShareSection />
       </div>
       
       {/* Footer accent */}
