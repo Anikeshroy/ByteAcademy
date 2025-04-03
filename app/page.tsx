@@ -1,8 +1,7 @@
 import SemesterCard from "@/components/semester-card"
 // import { GraduationCap } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Sparkles } from "lucide-react"
-import { Link } from "lucide-react"
+// import { Button } from "@/components/ui/button"
+// import { Sparkles, Link } from "lucide-react"
 import ShareSection from "@/components/share-section"
 
 export default function Home() {

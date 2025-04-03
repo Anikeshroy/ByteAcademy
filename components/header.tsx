@@ -5,7 +5,7 @@ import { Home, Info, Menu, X, Moon, Sun, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/theme-toggle"
 import InstallPWAButton from "@/components/install-pwa-button"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { usePathname } from "next/navigation"
 import Image from "next/image"
 import logoImage from "/assets/logo.png"
@@ -20,9 +20,9 @@ export default function Header() {
     setMobileMenuOpen(!mobileMenuOpen)
   }
 
-  const closeMobileMenu = () => {
+  const closeMobileMenu = useCallback(() => {
     setMobileMenuOpen(false)
-  }
+  }, [])
 
   // Handle component mount to prevent hydration mismatch
   useEffect(() => {
