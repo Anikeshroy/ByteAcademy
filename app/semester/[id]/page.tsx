@@ -34,20 +34,20 @@ export default function SemesterPage({ params }: { params: { id: string } }) {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="space-y-8 mb-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <Button variant="outline" asChild className="gap-1.5 h-9 px-3 mr-1">
-            <Link href="/">
-              <ChevronLeft className="h-4 w-4" />
-              <span className="text-sm">Back</span>
-            </Link>
-          </Button>
-          
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl sm:text-3xl font-bold flex items-center">
             <span>{getOrdinalSuffix(semesterId)} Semester</span>
             <div className="bg-primary/10 p-1.5 rounded-full ml-3 inline-flex">
               <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
             </div>
           </h1>
+
+          <Button variant="outline" asChild className="gap-1.5 h-9 px-3">
+            <Link href="/">
+              <ChevronLeft className="h-4 w-4" />
+              <span className="text-sm">Back</span>
+            </Link>
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 gap-8">
