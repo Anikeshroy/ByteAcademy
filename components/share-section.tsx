@@ -35,7 +35,7 @@ export default function ShareSection() {
                   if (navigator.share) {
                     navigator.share({
                       title: 'ByteAcademy',
-                      text: 'Check out ByteAcademy - Your path to programming excellence!',
+                      text: 'Check out ByteAcademy - For All Study Material of BEU',
                       url: window.location.href,
                     }).catch((error) => console.log('Error sharing:', error));
                   }
