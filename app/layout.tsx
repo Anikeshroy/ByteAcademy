@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Script from "next/script"
 import PWANotification from "@/components/pwa-notification"
 import { Analytics } from '@vercel/analytics/next';
+import GoogleAnalytics from "@/components/GoogleAnalytics"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -95,6 +96,7 @@ export default function RootLayout({
         </ThemeProvider>
         <Script src="/pwa.js" strategy="lazyOnload" />
         <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   )
