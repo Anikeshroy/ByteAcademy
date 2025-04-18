@@ -1,7 +1,4 @@
 # ByteAcademy
-
-![ByteAcademy Logo](/public/logo.png)
-
 ByteAcademy is a centralized educational platform designed to simplify access to learning resources for students. It provides organized study materials, video lectures, notes, and previous year question papers in one place.
 
 ## 🚀 Features
