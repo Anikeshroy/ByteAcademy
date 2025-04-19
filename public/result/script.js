@@ -191,29 +191,29 @@ document.addEventListener('DOMContentLoaded', () => {
                                 ${entry.exam_name}
                             </div>
                         </div>
-                        
+
                         <div class="result-card">
                             <div class="student-info-section">
-                                <table class="student-info">
-                                    <tr>
+                        <table class="student-info">
+                            <tr>
                                         <th>Registration No</th>
                                         <td>${entry.registration_no}</td>
                                         <th>Semester</th>
                                         <td>${entry.semester}</td>
-                                    </tr>
-                                    <tr>
+                            </tr>
+                            <tr>
                                         <th>Student Name</th>
                                         <td colspan="3">${entry.student_name}</td>
-                                    </tr>
-                                    <tr>
+                            </tr>
+                            <tr>
                                         <th>Course</th>
                                         <td colspan="3">${entry.course_name}</td>
-                                    </tr>
-                                    <tr>
+                            </tr>
+                            <tr>
                                         <th>College</th>
                                         <td colspan="3">${entry.college_name}</td>
-                                    </tr>
-                                </table>
+                            </tr>
+                        </table>
                             </div>
 
                             <div class="result-summary">
@@ -231,17 +231,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                             </div>
 
-                            <div class="marks-section">
+                        <div class="marks-section">
                                 <div class="section-title">Performance Details</div>
-                                ${formatMarksTable(entry.theory_subjects, 'Theory')}
-                                ${formatMarksTable(entry.practical_subjects, 'Practical')}
-                            </div>
+                            ${formatMarksTable(entry.theory_subjects, 'Theory')}
+                            ${formatMarksTable(entry.practical_subjects, 'Practical')}
+                        </div>
 
                             <div class="cgpa-section">
                                 <div class="section-title">Semester-wise Performance</div>
                                 <div class="semester-grade-wrapper">
-                                    <table class="semester-grade-table">
-                                        <tr>
+                        <table class="semester-grade-table">
+                            <tr>
                                             <th>Semester</th>
                                             <th>I</th>
                                             <th>II</th>
@@ -252,8 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <th>VII</th>
                                             <th>VIII</th>
                                             <th>CGPA</th>
-                                        </tr>
-                                        <tr>
+                            </tr>
+                            <tr>
                                             <td>Grade</td>
                                             <td>${entry.semester_grades.find(g => g.semester === 'I')?.sgpa || 'NA'}</td>
                                             <td>${entry.semester_grades.find(g => g.semester === 'II')?.sgpa || 'NA'}</td>
@@ -264,8 +264,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <td>${entry.semester_grades.find(g => g.semester === 'VII')?.sgpa || 'NA'}</td>
                                             <td>${entry.semester_grades.find(g => g.semester === 'VIII')?.sgpa || 'NA'}</td>
                                             <td>${cgpa}</td>
-                                        </tr>
-                                    </table>
+                            </tr>
+                        </table>
                                 </div>
                             </div>
 
@@ -874,6 +874,217 @@ document.addEventListener('DOMContentLoaded', () => {
                     font-size: 15px;
                 }
             }
+
+            /* Loader styles */
+            .loader-container {
+                background: white;
+                border-radius: 8px;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                border: 1px solid #e2e8f0;
+                margin: 15px 0;
+            }
+            
+            .loader-message {
+                color: #3a56d4;
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 15px;
+                letter-spacing: 0.5px;
+                position: relative;
+                display: inline-block;
+                animation: text-pulse 2s infinite;
+            }
+            
+            @keyframes text-pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.85; }
+                100% { opacity: 1; }
+            }
+            
+            .loader-message:after {
+                content: '...';
+                position: absolute;
+                width: 24px;
+                text-align: left;
+                opacity: 1;
+                animation: dots 1.5s infinite;
+                overflow: hidden;
+            }
+            
+            @keyframes dots {
+                0% { width: 0; opacity: 1; }
+                33% { width: 8px; opacity: 1; }
+                66% { width: 16px; opacity: 1; }
+                100% { width: 24px; opacity: 1; }
+            }
+            
+            .loader-progress-container {
+                height: 8px;
+                background: #f0f4f8;
+                border-radius: 20px;
+                margin: 0 10px 10px 10px;
+                overflow: hidden;
+            }
+            
+            .loader-progress-bar {
+                height: 100%;
+                background: linear-gradient(90deg, #3a56d4, #6e8afb);
+                border-radius: 20px;
+                transition: width 0.3s ease;
+                animation: pulse 1.5s infinite;
+            }
+            
+            @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.8; }
+                100% { opacity: 1; }
+            }
+            
+            .loader-percentage {
+                color: #718096;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            
+            @media (max-width: 480px) {
+                .loader-container {
+                    padding: 15px;
+                    margin: 10px 0;
+                }
+                
+                .loader-message {
+                    font-size: 16px;
+                    margin-bottom: 12px;
+                }
+                
+                .loader-percentage {
+                    font-size: 13px;
+                }
+            }
+
+            /* Enhanced form controls and dropdowns */
+            select.form-control, input.form-control {
+                height: 46px;
+                padding: 0 15px;
+                font-size: 15px;
+                color: #4a5568;
+                background-color: #fff;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                transition: all 0.2s ease;
+                font-weight: 500;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+            
+            /* Custom select styling */
+            select.form-control {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233a56d4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 12px center;
+                background-size: 16px;
+                padding-right: 40px;
+            }
+            
+            /* Form labels styling */
+            label {
+                display: block;
+                font-size: 15px;
+                font-weight: 600;
+                color: #4a5568;
+                margin-bottom: 8px;
+                transition: all 0.2s ease;
+            }
+            
+            /* Placeholder styling */
+            ::placeholder {
+                color: #a0aec0;
+                opacity: 1;
+            }
+            
+            :-ms-input-placeholder {
+                color: #a0aec0;
+            }
+            
+            ::-ms-input-placeholder {
+                color: #a0aec0;
+            }
+            
+            .form-group {
+                margin-bottom: 16px;
+            }
+            
+            .form-group:focus-within label {
+                color: #3a56d4;
+            }
+            
+            select.form-control:focus, input.form-control:focus {
+                border-color: #3a56d4;
+                box-shadow: 0 0 0 3px rgba(58, 86, 212, 0.15);
+                outline: none;
+            }
+            
+            /* Option styling */
+            select.form-control option {
+                padding: 12px;
+                font-size: 15px;
+                color: #4a5568;
+                background-color: #fff;
+            }
+            
+            /* Disabled select styling */
+            select.form-control:disabled {
+                background-color: #f8fafc;
+                color: #a0aec0;
+                cursor: not-allowed;
+                opacity: 0.8;
+            }
+            
+            /* Button styling */
+            .btn {
+                height: 46px;
+                padding: 0 20px;
+                font-size: 15px;
+                font-weight: 600;
+                background: linear-gradient(135deg, #3a56d4, #6e8afb);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(58, 86, 212, 0.2);
+            }
+            
+            .btn:hover {
+                background: linear-gradient(135deg, #304bc3, #5d79ea);
+                box-shadow: 0 4px 10px rgba(58, 86, 212, 0.3);
+            }
+            
+            .btn:active {
+                transform: translateY(1px);
+            }
+            
+            @media (max-width: 480px) {
+                select.form-control, input.form-control {
+                    height: 44px;
+                    font-size: 14px;
+                    padding: 0 12px;
+                }
+                
+                select.form-control {
+                    background-position: right 10px center;
+                    padding-right: 35px;
+                }
+                
+                .btn {
+                    height: 44px;
+                    font-size: 14px;
+                }
+            }
         `;
         document.head.appendChild(styleElement);
 
@@ -913,13 +1124,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (progress > 100) progress = 100;
             
             messageDiv.innerHTML = `
-                <div style="color: #004085; background: #cce5ff; padding: 10px; border-radius: 4px; border: 1px solid #b8daff; text-align: center;">
-                    Processing Result... ${Math.floor(progress)}%
+                <div class="loader-container">
+                    <div class="loader-message">Fetching Result</div>
+                    <div class="loader-progress-container">
+                        <div class="loader-progress-bar" style="width: ${Math.floor(progress)}%"></div>
+                    </div>
+                    <div class="loader-percentage">${Math.floor(progress)}%</div>
                 </div>
             `;
         }, interval);
 
-        const url = `https://api.beunotes.workers.dev/result?sem=${semester}&year=${batch}&reg_no=${regNo}`;
+        const url = `https://beu-result.anikeshroy62040.workers.dev//result?sem=${semester}&year=${batch}&reg_no=${regNo}`;
         console.log("Fetching URL:", url); // Log the URL
 
         fetch(url)
