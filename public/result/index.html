@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1000, maximum-scale=1.0, user-scalable=no">
+    <title>BEU Result Scrapper</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Prevent text size adjustment and zooming */
+        html {
+            -webkit-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+        
+        /* Prevent input zoom */
+        input[type="text"],
+        select,
+        button {
+            font-size: 16px !important;
+            touch-action: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        /* Improved overall design */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4f9 0%, #d4e0f0 100%);
+            color: #1a202c;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #3a56d4, #6e8afb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .page-subtitle {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .input-section {
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .input-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3a56d4, #6e8afb);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        select, input[type="text"] {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background-color: white;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            outline: none;
+        }
+
+        select:hover, input[type="text"]:hover {
+            border-color: #cbd5e0;
+        }
+
+        .reg-input-container {
+            flex: 1;
+            display: flex;
+            position: relative;
+        }
+
+        .help-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #4a5568;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .help-button:hover {
+            background: #4361ee;
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 2px 5px rgba(67, 97, 238, 0.3);
+        }
+        
+        .help-button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            background: linear-gradient(90deg, #4361ee, #6e8afb);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #3a56d4, #5e7aeb);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
+        }
+
+        #fetchButton {
+            min-width: 180px;
+        }
+
+        #printButton {
+            background: linear-gradient(90deg, #319795, #38b2ac);
+            margin-top: 1.5rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            min-width: 180px;
+            box-shadow: 0 4px 12px rgba(56, 178, 172, 0.25);
+        }
+
+        #printButton:hover {
+            background: linear-gradient(90deg, #2c8a88, #319795);
+            box-shadow: 0 6px 15px rgba(56, 178, 172, 0.3);
+        }
+
+        .message {
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .message.error {
+            background-color: #fff5f5;
+            color: #e53e3e;
+            border: 1px solid #feb2b2;
+        }
+
+        .message.success {
+            background-color: #f0fff4;
+            color: #38a169;
+            border: 1px solid #c6f6d5;
+        }
+
+        #results {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .loading-indicator {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            border-color: #4361ee transparent #4361ee transparent;
+            border-width: 3px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .loading-text {
+            font-weight: 600;
+            color: #4361ee;
+            margin-top: 1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .input-section {
+                padding: 1.5rem;
+            }
+            
+            .input-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            select, input[type="text"], .reg-input-container {
+                width: 100%;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Bihar Engineering University Results</h1>
+            <p class="page-subtitle">Access your academic performance with ease</p>
+        </div>
+        
+        <div class="input-section">
+            <div class="input-row">
+                <select id="semester" required data-validate="true">
+                    <option value="" disabled selected>Select Semester</option>
+                    <option value="1st">1st Semester</option>
+                    <option value="2nd">2nd Semester</option>
+                    <option value="3rd">3rd Semester</option>
+                    <option value="4th">4th Semester</option>
+                    <option value="5th">5th Semester</option>
+                    <option value="6th">6th Semester</option>
+                    <option value="7th">7th Semester</option>
+                    <option value="8th">8th Semester</option>
+                </select>
+
+                <select id="batch" required disabled data-validate="true">
+                    <option value="" disabled selected>Select Examination Year</option>
+                </select>
+
+                <div class="reg-input-container">
+                    <input type="text" 
+                           id="regNo" 
+                           placeholder="Enter Registration Number"
+                           maxlength="11"
+                           required
+                           data-validate="true"
+                           pattern="\d{11}"
+                           title="Please enter a valid 11-digit registration number">
+                    <button id="regNoHelp" class="help-button" title="View Registration Number Format">?</button>
+                </div>
+            </div>
+            
+            <div class="button-row">
+                <button id="fetchButton">Get Result</button>
+            </div>
+        </div>
+        
+        <div id="message" class="message"></div>
+        <div id="results"></div>
+    </div>
+    
+    <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+        <div class="loading-spinner"></div>
+        <span class="loading-text">Processing...</span>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
