@@ -591,7 +591,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="success-icon">✅</div>
                 <div>
                   <div class="success-title">PDF saved!</div>
-                  <div class="success-details">Optimized for A4 paper with proper visualization</div>
                 </div>
               </div>
             </div>
@@ -619,7 +618,6 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="success-icon">✅</div>
               <div>
                 <div class="success-title">PDF saved!</div>
-                <div class="success-details">Optimized for A4 paper with proper visualization</div>
               </div>
             </div>
           </div>
