@@ -11,12 +11,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // Use it for critical elements
     const fetchButton = getElement('#fetchButton');
     const resultsContainer = getElement('#results');
+    const actionButtons = getElement('#action-buttons');
+    const printButton = getElement('#printButton');
+    const snapshotButton = getElement('#snapshotButton');
+    const formInstructions = getElement('#form-instructions');
 
     // Get all DOM elements
     const semesterSelect = document.getElementById('semester');
     const batchSelect = document.getElementById('batch');
     const messageDiv = document.getElementById('message');
     const regNoInput = document.getElementById('regNo');
+
+    // Add print functionality
+    if (printButton) {
+        printButton.addEventListener('click', () => {
+            window.print();
+        });
+    }
+
+    // Function to check if form has valid inputs
+    function checkValidInputs() {
+        const semesterValue = semesterSelect.value.trim();
+        const batchValue = batchSelect.value.trim();
+        const regNoValue = regNoInput.value.trim();
+        
+        // If all fields have valid values
+        if (semesterValue && batchValue && regNoValue.length === 11 && !isNaN(regNoValue)) {
+            // Hide instructions
+            if (formInstructions) {
+                formInstructions.style.display = 'none';
+            }
+            return true;
+        } else {
+            // Show instructions
+            if (formInstructions) {
+                formInstructions.style.display = 'block';
+            }
+            return false;
+        }
+    }
+
+    // Add event listeners to form fields to check validity
+    semesterSelect.addEventListener('change', checkValidInputs);
+    batchSelect.addEventListener('change', checkValidInputs);
+    regNoInput.addEventListener('input', checkValidInputs);
 
     // Define semester to batch mapping
     const semesterToBatchMapping = {
@@ -56,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             batchSelect.disabled = true;
         }
+        
+        // Check if form is valid
+        checkValidInputs();
     });
 
     // Handle batch selection change
@@ -78,6 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>`;
             fetchButton.focus();
         }
+        
+        // Check if form is valid
+        checkValidInputs();
     });
 
     // Function to get failed subjects
@@ -174,6 +218,93 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
+    // Function for taking a snapshot of the result and saving it
+    function takeSnapshot() {
+        // Show a loading message
+        messageDiv.innerHTML = `
+            <div class="message success">
+                Generating snapshot... Please wait.
+            </div>
+        `;
+
+        // Make watermark more visible for snapshots
+        const watermarks = document.querySelectorAll('.watermark-disclaimer');
+        watermarks.forEach(watermark => {
+            watermark.style.color = 'rgba(220, 53, 69, 0.15)';
+            watermark.style.fontSize = '48px';
+            if (watermark.nextElementSibling) {
+                watermark.nextElementSibling.style.color = 'rgba(220, 53, 69, 0.15)';
+                watermark.nextElementSibling.style.fontSize = '40px';
+            }
+        });
+
+        // Scroll to top of the results container to ensure all content is visible
+        resultsContainer.scrollIntoView({ behavior: 'smooth' });
+
+        // Use a timeout to ensure the page has scrolled before taking the screenshot
+        setTimeout(() => {
+            html2canvas(resultsContainer, {
+                scale: 2, // Increase quality
+                logging: false,
+                useCORS: true,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                // Convert canvas to an image
+                const image = canvas.toDataURL('image/png');
+                
+                // Create a temporary link to download the image
+                const link = document.createElement('a');
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const semester = semesterSelect.value;
+                const regNo = regNoInput.value;
+                
+                // Format the filename with registration number and semester
+                link.download = `result_${regNo}_${semester}_${timestamp}.png`;
+                link.href = image;
+                link.click();
+                
+                // Reset watermark visibility
+                watermarks.forEach(watermark => {
+                    watermark.style.color = 'rgba(220, 53, 69, 0.07)';
+                    watermark.style.fontSize = '42px';
+                    if (watermark.nextElementSibling) {
+                        watermark.nextElementSibling.style.color = 'rgba(220, 53, 69, 0.07)';
+                        watermark.nextElementSibling.style.fontSize = '36px';
+                    }
+                });
+                
+                // Show success message
+                messageDiv.innerHTML = `
+                    <div class="message success">
+                        Snapshot saved to your device!
+                    </div>
+                `;
+            }).catch(err => {
+                console.error('Error generating snapshot:', err);
+                messageDiv.innerHTML = `
+                    <div class="message error">
+                        Failed to generate snapshot. Please try again.
+                    </div>
+                `;
+                
+                // Reset watermark visibility on error
+                watermarks.forEach(watermark => {
+                    watermark.style.color = 'rgba(220, 53, 69, 0.07)';
+                    watermark.style.fontSize = '42px';
+                    if (watermark.nextElementSibling) {
+                        watermark.nextElementSibling.style.color = 'rgba(220, 53, 69, 0.07)';
+                        watermark.nextElementSibling.style.fontSize = '36px';
+                    }
+                });
+            });
+        }, 500);
+    }
+
+    // Add event listener for snapshot button
+    if (snapshotButton) {
+        snapshotButton.addEventListener('click', takeSnapshot);
+    }
+
     // Function to display results
     function displayResult(data) {
         resultsContainer.innerHTML = '';
@@ -193,6 +324,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
 
                         <div class="result-card">
+                            <!-- Watermark disclaimer -->
+                            <div class="watermark-disclaimer">UNOFFICIAL RESULT - NOT FOR OFFICIAL USE</div>
+                            
                             <div class="student-info-section">
                         <table class="student-info">
                             <tr>
@@ -299,6 +433,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 overflow: hidden;
                 margin-bottom: 30px;
                 border: 1px solid #e9ecef;
+                position: relative;
+            }
+            
+            /* Watermark disclaimer styling */
+            .watermark-disclaimer {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 42px;
+                font-weight: 700;
+                color: rgba(220, 53, 69, 0.07);
+                pointer-events: none;
+                transform: rotate(-30deg);
+                z-index: 10;
+                letter-spacing: 1px;
+                text-align: center;
+            }
+            
+            /* Additional watermark to ensure visibility */
+            .watermark-disclaimer::after {
+                content: 'FOR INFORMATION ONLY';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                font-size: 36px;
+                transform: translateY(70px) rotate(0deg);
+                color: rgba(220, 53, 69, 0.07);
+            }
+            
+            /* Make sure watermark is visible in print and snapshot */
+            @media print {
+                .watermark-disclaimer {
+                    color: rgba(220, 53, 69, 0.15) !important;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+                
+                .watermark-disclaimer::after {
+                    color: rgba(220, 53, 69, 0.15) !important;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
             }
             
             .university-header {
@@ -307,6 +489,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 padding: 20px;
                 text-align: center;
                 border-radius: 12px 12px 0 0;
+                position: relative;
+                z-index: 15;
             }
             
             .university-header h1 {
@@ -684,11 +868,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 .marks-table, .semester-grade-table {
                     font-size: 12px;
-                }
-                
-                .disclaimer {
-                    font-size: 12px;
-                    padding: 10px;
                 }
                 
                 /* Message div for notifications */
@@ -1090,9 +1269,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Mark failed grades for better visibility
         markFailedGrades();
+
+        // Show the action buttons after displaying results
+        actionButtons.style.display = 'flex';
     }
 
-    // Update fetch button click handler with precise timing
+    // Update fetch button click handler with improved loader
     fetchButton.addEventListener('click', () => {
         const semester = semesterSelect.value.trim().toLowerCase();
         const batch = batchSelect.value.trim();
@@ -1101,38 +1283,250 @@ document.addEventListener('DOMContentLoaded', () => {
         messageDiv.textContent = '';
         resultsContainer.innerHTML = '';
 
+        // Hide form instructions once user attempts to fetch results
+        if (formInstructions) {
+            formInstructions.style.display = 'none';
+        }
+
         if (!semester || !batch || regNo.length !== 11 || isNaN(regNo)) {
-            messageDiv.textContent = 'Please select valid options and enter a valid registration number.';
+            messageDiv.innerHTML = `
+                <div class="message error">
+                    <div class="error-icon">⚠️</div>
+                    <div class="error-message">
+                        <div class="error-title">Please check your input</div>
+                        <ul class="error-list">
+                            ${!semester ? '<li>Select your semester</li>' : ''}
+                            ${!batch ? '<li>Select examination year</li>' : ''}
+                            ${regNo.length !== 11 || isNaN(regNo) ? '<li>Enter valid 11-digit registration number</li>' : ''}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            // Show instructions again if there are errors
+            if (formInstructions) {
+                formInstructions.style.display = 'block';
+            }
             return;
         }
 
-        // Initialize loading counter for 4.2-7.8 seconds duration
-        let progress = 0;
-        const minTime = 4200; // 4.2 seconds
-        const maxTime = 7800; // 7.8 seconds
-        const interval = 250; // Update every 250ms
-        
-        // Calculate random total duration between min and max
-        const duration = Math.floor(Math.random() * (maxTime - minTime)) + minTime;
-        const incrementsNeeded = duration / interval;
-        const avgIncrement = 100 / incrementsNeeded;
-
-        const loadingInterval = setInterval(() => {
-            // Add a small random variation to the increment
-            progress += avgIncrement + (Math.random() * 0.5 - 0.25);
-            
-            if (progress > 100) progress = 100;
-            
-            messageDiv.innerHTML = `
-                <div class="loader-container">
-                    <div class="loader-message">Fetching Result</div>
-                    <div class="loader-progress-container">
-                        <div class="loader-progress-bar" style="width: ${Math.floor(progress)}%"></div>
+        // Advanced loader animation
+        messageDiv.innerHTML = `
+            <div class="enhanced-loader">
+                <svg class="spinner" viewBox="0 0 50 50">
+                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                </svg>
+                <div class="loader-text-container">
+                    <div class="loader-text">Fetching your results<span class="loader-dots">...</span></div>
+                    <div class="loader-steps">
+                        <div class="loader-step active">Connecting to database</div>
+                        <div class="loader-step">Searching records</div>
+                        <div class="loader-step">Processing data</div>
+                        <div class="loader-step">Preparing results</div>
                     </div>
-                    <div class="loader-percentage">${Math.floor(progress)}%</div>
                 </div>
-            `;
-        }, interval);
+                <div class="loader-progress-container">
+                    <div class="loader-progress-bar"></div>
+                </div>
+            </div>
+        `;
+        
+        // Add styles for the enhanced loader
+        const loaderStyles = document.createElement('style');
+        loaderStyles.textContent = `
+            .enhanced-loader {
+                background-color: white;
+                border-radius: 12px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+                padding: 25px;
+                margin: 15px 0;
+                text-align: center;
+                border: 1px solid #e2e8f0;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .spinner {
+                animation: rotate 2s linear infinite;
+                z-index: 2;
+                width: 50px;
+                height: 50px;
+                margin: 0 auto 15px auto;
+            }
+            
+            .path {
+                stroke: #4361ee;
+                stroke-linecap: round;
+                animation: dash 1.5s ease-in-out infinite;
+            }
+            
+            @keyframes rotate {
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+            @keyframes dash {
+                0% {
+                    stroke-dasharray: 1, 150;
+                    stroke-dashoffset: 0;
+                }
+                50% {
+                    stroke-dasharray: 90, 150;
+                    stroke-dashoffset: -35;
+                }
+                100% {
+                    stroke-dasharray: 90, 150;
+                    stroke-dashoffset: -124;
+                }
+            }
+            
+            .loader-text-container {
+                margin-bottom: 20px;
+            }
+            
+            .loader-text {
+                font-size: 18px;
+                font-weight: 600;
+                color: #4361ee;
+                margin-bottom: 8px;
+                position: relative;
+            }
+            
+            .loader-dots {
+                display: inline-block;
+                width: 20px;
+                overflow: hidden;
+                animation: dots 1.5s infinite steps(4, jump-none);
+            }
+            
+            @keyframes dots {
+                0% { width: 0; }
+                100% { width: 20px; }
+            }
+            
+            .loader-steps {
+                display: flex;
+                flex-direction: column;
+                max-width: 220px;
+                margin: 0 auto;
+            }
+            
+            .loader-step {
+                font-size: 14px;
+                color: #718096;
+                padding: 5px 0;
+                opacity: 0.4;
+                text-align: center;
+                transition: opacity 0.3s ease;
+            }
+            
+            .loader-step.active {
+                opacity: 1;
+                color: #4361ee;
+                font-weight: 500;
+            }
+            
+            .loader-progress-container {
+                height: 4px;
+                background-color: #edf2f7;
+                border-radius: 2px;
+                overflow: hidden;
+                margin-top: 10px;
+                position: relative;
+            }
+            
+            .loader-progress-bar {
+                position: absolute;
+                height: 100%;
+                background: linear-gradient(90deg, #4361ee, #6e8afb);
+                border-radius: 2px;
+                transition: width 0.3s ease;
+                width: 0%;
+            }
+            
+            .error-icon {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+            
+            .error-title {
+                font-weight: 600;
+                margin-bottom: 5px;
+            }
+            
+            .error-list {
+                text-align: left;
+                margin: 5px 0 0 0;
+                padding-left: 20px;
+            }
+            
+            .error-list li {
+                margin-bottom: 3px;
+            }
+            
+            @media (max-width: 768px) {
+                .enhanced-loader {
+                    padding: 20px 15px;
+                }
+                
+                .spinner {
+                    width: 40px;
+                    height: 40px;
+                }
+                
+                .loader-text {
+                    font-size: 16px;
+                }
+                
+                .loader-step {
+                    font-size: 13px;
+                }
+            }
+        `;
+        document.head.appendChild(loaderStyles);
+
+        // Initialize progress bar animation with step transitions
+        const progressBar = messageDiv.querySelector('.loader-progress-bar');
+        const loaderSteps = messageDiv.querySelectorAll('.loader-step');
+        let currentStep = 0;
+        let progress = 0;
+        
+        // Helper to update active step
+        const updateStep = (stepIndex) => {
+            loaderSteps.forEach((step, i) => {
+                if (i === stepIndex) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        };
+        
+        // Simulate progress through steps
+        const progressInterval = setInterval(() => {
+            progress += 1;
+            
+            // Update progress bar width
+            if (progressBar) {
+                progressBar.style.width = `${Math.min(progress, 95)}%`;
+            }
+            
+            // Update active step based on progress
+            if (progress >= 20 && progress < 40 && currentStep !== 1) {
+                currentStep = 1;
+                updateStep(currentStep);
+            } else if (progress >= 40 && progress < 70 && currentStep !== 2) {
+                currentStep = 2;
+                updateStep(currentStep);
+            } else if (progress >= 70 && progress < 95 && currentStep !== 3) {
+                currentStep = 3;
+                updateStep(currentStep);
+            }
+            
+            if (progress >= 98) {
+                clearInterval(progressInterval);
+            }
+        }, 60);
 
         const url = `https://beu-result.anikeshroy62040.workers.dev//result?sem=${semester}&year=${batch}&reg_no=${regNo}`;
         console.log("Fetching URL:", url); // Log the URL
@@ -1145,7 +1539,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 console.log("Response Data:", data);
-                clearInterval(loadingInterval);
+                clearInterval(progressInterval);
                 messageDiv.textContent = '';
                 
                 // Update error message for no data
@@ -1199,11 +1593,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 
+                // After successful fetch and before displaying results:
+                // Hide the action buttons until results are displayed
+                actionButtons.style.display = 'none';
+                
                 // Display only exact matches
                 displayResult(exactMatches);
             })
             .catch(error => {
-                clearInterval(loadingInterval);
+                clearInterval(progressInterval);
                 messageDiv.innerHTML = `
                     <table style="width: 100%; border-collapse: collapse; margin: 10px 0; background-color: #fff5f5; border: 2px solid #dc3545;">
                         <tr>
@@ -1443,6 +1841,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>`;
             fetchButton.focus();
         }
+        
+        // Check if form is valid
+        checkValidInputs();
     });
 
     // Add these constants at the top of your script

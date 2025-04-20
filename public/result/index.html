@@ -10,7 +10,7 @@
         /* Prevent text size adjustment and zooming */
         html {
             -webkit-text-size-adjust: none;
-            text-size-adjust: none;
+            text-align-adjust: none;
         }
         
         /* Prevent input zoom */
@@ -95,13 +95,112 @@
             background: linear-gradient(90deg, #3a56d4, #6e8afb);
         }
 
+        /* Form Instructions Section */
+        .form-instructions {
+            background-color: #f0f7ff;
+            border-left: 4px solid #4361ee;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        
+        .instructions-header {
+            font-weight: 600;
+            color: #3a56d4;
+            margin-bottom: 12px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .instructions-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        .instructions-steps {
+            padding-left: 20px;
+            margin: 0 0 12px 0;
+            line-height: 1.6;
+        }
+        
+        .instructions-steps li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .instructions-steps li strong {
+            color: #3a56d4;
+            font-weight: 600;
+        }
+        
+        .instructions-note {
+            font-style: italic;
+            color: #718096;
+            font-size: 13px;
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 10px;
+        }
+
         .input-row {
             display: flex;
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
-        select, input[type="text"] {
+        /* Enhanced Select Styling */
+        select {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background-color: white;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+            color: #4a5568;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234361ee' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        select:focus {
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            outline: none;
+        }
+
+        select:hover {
+            border-color: #4361ee;
+            background-color: #f9fafc;
+        }
+
+        select:disabled {
+            background-color: #f1f5f9;
+            color: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.7;
+            border-color: #e2e8f0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+
+        /* Style for select options */
+        select option {
+            padding: 10px;
+            font-weight: 500;
+        }
+
+        select option:checked {
+            background-color: #eef2ff;
+            color: #4361ee;
+        }
+
+        input[type="text"] {
             flex: 1;
             padding: 14px 18px;
             border-radius: 8px;
@@ -113,13 +212,13 @@
             color: #4a5568;
         }
 
-        select:focus, input[type="text"]:focus {
+        input[type="text"]:focus {
             border-color: #4361ee;
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
             outline: none;
         }
 
-        select:hover, input[type="text"]:hover {
+        input[type="text"]:hover {
             border-color: #cbd5e0;
         }
 
@@ -209,6 +308,28 @@
             box-shadow: 0 6px 15px rgba(56, 178, 172, 0.3);
         }
 
+        #snapshotButton {
+            background: linear-gradient(90deg, #6366F1, #818CF8);
+            margin-top: 1.5rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            min-width: 180px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+        }
+
+        #snapshotButton:hover {
+            background: linear-gradient(90deg, #5253cc, #6366F1);
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 1.5rem;
+        }
+
         .message {
             padding: 1.25rem;
             border-radius: 8px;
@@ -280,6 +401,33 @@
             .page-title {
                 font-size: 1.75rem;
             }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .form-instructions {
+                padding: 12px;
+                margin-bottom: 15px;
+                font-size: 13px;
+            }
+            
+            .instructions-header {
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
+            
+            .instructions-steps {
+                padding-left: 18px;
+            }
+            
+            /* Adjust select padding on mobile */
+            select {
+                padding: 12px 15px;
+                padding-right: 35px;
+                background-position: right 10px center;
+            }
         }
     </style>
 </head>
@@ -324,16 +472,39 @@
             <div class="button-row">
                 <button id="fetchButton">Get Result</button>
             </div>
+            
+            <!-- Form instructions (moved to bottom) -->
+            <div id="form-instructions" class="form-instructions">
+                <div class="instructions-header">
+                    <span class="instructions-icon">ℹ️</span> How to access your results
+                </div>
+                <ol class="instructions-steps">
+                    <li>Select your <strong>semester</strong> from the dropdown</li>
+                    <li>Choose the <strong>examination year</strong> from the available options</li>
+                    <li>Enter your <strong>11-digit registration number</strong> (e.g., 23101134001)</li>
+                    <li>Click the <strong>Get Result</strong> button to view your results</li>
+                </ol>
+                <div class="instructions-note">
+                    Need help with your registration number? Click the <strong>?</strong> button next to the input field.
+                </div>
+            </div>
         </div>
         
         <div id="message" class="message"></div>
         <div id="results"></div>
+        
+        <div id="action-buttons" class="button-container" style="display: none;">
+            <!-- <button id="printButton">Print Result</button> -->
+            <button id="snapshotButton">Save Result</button>
+        </div>
     </div>
     
     <div id="loadingIndicator" class="loading-indicator" style="display: none;">
         <div class="loading-spinner"></div>
         <span class="loading-text">Processing...</span>
     </div>
+    
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
