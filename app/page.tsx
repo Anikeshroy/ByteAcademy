@@ -17,7 +17,7 @@ export default function Home() {
           <div className="text-center space-y-4 max-w-4xl mx-auto">
             {/* <GraduationCap className="h-10 w-10 text-primary" /> */}
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-            The Ultimate Resources Hub for CSE Students
+            The Ultimate Academic Hub for CSE Students
             </h1>
           </div>
 

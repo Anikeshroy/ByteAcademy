@@ -33,8 +33,11 @@ export default function ResourcesPage() {
           {/* Header */}
           <div className="text-center space-y-4 max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-              CSE Resources by Semester
+              Access All Resource of CSE
             </h1>
+            <h2 className="text-xl sm:text-2xl font-medium text-muted-foreground">
+              Previous year question papers, hand written notes & video solutions
+            </h2>
           </div>
 
           {/* Resources Card containing all semesters */}
