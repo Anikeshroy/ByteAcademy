@@ -1720,7 +1720,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="tooltip-item">165 - SPNREC Araria</div>
                     </div>
                 </div>
-                <div class="tooltip-example">Example: 23101134001</div>
+                <div class="tooltip-example">Example: 22157133001</div>
                 <button class="tooltip-close">Close</button>
             `;
             document.body.appendChild(tooltip);
