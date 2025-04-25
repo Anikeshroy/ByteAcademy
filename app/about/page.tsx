@@ -1,8 +1,8 @@
-import { Github, Linkedin, Instagram, Mail, ExternalLink, Youtube, FileText, BookOpen } from "lucide-react"
+import { Github, Linkedin, Instagram, Mail, ExternalLink, FileText, BookOpen, Computer } from "lucide-react"
 import Image from "next/image"
 import profilepic from "/assets/ani1.jpg"
-import rahulAvatar from "/assets/rahul.jpg" // Replace with actual path
-import sanjeevAvatar from "/assets/sanjeev.jpg" // Replace with actual path
+import vivekAvatar from "/assets/vivek.jpg" // Replace with actual path
+import ayushAvatar from "/assets/ayush.png" // Replace with actual path
 import shivamAvatar from "/assets/shivam.jpeg" // Replace with actual path
 import { Button } from "@/components/ui/button"
 import type { Metadata } from 'next'
@@ -10,21 +10,21 @@ import type { Metadata } from 'next'
 // Update contributor data with directly imported images
 const contributors = [
   {
-    name: "Rahul Kumar",
+    name: "Vivek Raj",
     college: "GEC Jamui",
     batch: "2022-2026",
-    contribution: "Video Lectures",
-    avatar: rahulAvatar,
-    icon: <Youtube className="h-4 w-4 text-red-500" />,
+    contribution: "Developer",
+    avatar: vivekAvatar,
+    icon: <Computer className="h-4 w-4 text-red-500" />,
     color: "text-red-500",
     bgColor: "bg-red-500/10"
   },
   {
-    name: "Sanjeev Ranjan",
-    college: "GEC Jamui",
-    batch: "2022-2026",
+    name: "Ayush Roy",
+    college: "GEC Banka",
+    batch: "2023-2027",
     contribution: "Handwritten Notes",
-    avatar: sanjeevAvatar,
+    avatar: ayushAvatar,
     icon: <BookOpen className="h-4 w-4 text-green-500" />,
     color: "text-green-500",
     bgColor: "bg-green-500/10"
