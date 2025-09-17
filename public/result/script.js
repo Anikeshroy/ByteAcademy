@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Define semester to batch mapping
     const semesterToBatchMapping = {
-    "1st": ["2024", "2023", "2022"],
+    "1st": ["2025", "2024", "2023", "2022"],
     "2nd": ["2024", "2023"],
     "3rd": ["2023"],
     "4th": ["2023", "2022", "2025"],
